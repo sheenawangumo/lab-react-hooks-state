@@ -1,23 +1,31 @@
-import React from 'react'
-import ProductCard from './ProductCard'
+import ProductCard from "./ProductCard";
 
-// Sample product data (for display purposes only)
 export const sampleProducts = [
-  { id: 1, name: 'Apple', price: '$1.00', category: 'Fruits', inStock: true },
-  { id: 2, name: 'Milk', price: '$2.50', category: 'Dairy', inStock: false }
-]
+  { id: 1, name: "Milk", category: "Dairy" },
+  { id: 2, name: "Cheese", category: "Dairy" },
+  { id: 3, name: "Apple", category: "Fruits" },
+  { id: 4, name: "Banana", category: "Fruits" },
+  { id: 5, name: "Bread", category: "Bakery" },
+  { id: 6, name: "Croissant", category: "Bakery" },
+];
 
-const ProductList = () => {
+function ProductList({ products, addToCart, category }) {
+  const filtered =
+    category === "All"
+      ? products
+      : products.filter((p) => p.category === category);
+
   return (
     <div>
-      <h2>Available Products</h2>
-
-      {/* TODO: Filter sample data using selected category */}
-      {sampleProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      {filtered.length === 0 ? (
+        <p>No products available.</p>
+      ) : (
+        filtered.map((product) => (
+          <ProductCard key={product.id} product={product} addToCart={addToCart} />
+        ))
+      )}
     </div>
-  )
+  );
 }
 
-export default ProductList
+export default ProductList;

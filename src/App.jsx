@@ -1,38 +1,32 @@
-import React, { useState } from 'react'
-import ProductList from './components/ProductList'
-import DarkModeToggle from './components/DarkModeToggle'
-import Cart from './components/Cart'
+import { useState } from "react";
+import ProductList, { sampleProducts } from "./components/ProductList";
+import DarkModeToggle from "./components/DarkModeToggle";
+import Cart from "./components/Cart";
 
-const App = () => {
-  // TODO: Implement state for dark mode toggle
+function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [category, setCategory] = useState("All");
 
-  // TODO: Implement state for cart management
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  // TODO: Implement state for category filtering
+  const addToCart = (product) => {
+    setCartItems((prev) => [...prev, product]);
+  };
 
   return (
-    <div>
-      <h1>🛒 Shopping App</h1>
-      <p>
-        Welcome! Your task is to implement filtering, cart management, and dark
-        mode.
-      </p>
-
-      {/* TODO: Render DarkModeToggle and implement dark mode functionality */}
-
-      {/* TODO: Implement category filter dropdown */}
-      <label>Filter by Category: </label>
-      <select>
-        <option value="all">All</option>
-        <option value="Fruits">Fruits</option>
+    <div className={darkMode ? "app dark" : "app"}>
+      <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <select onChange={(e) => setCategory(e.target.value)} value={category}>
+        <option value="All">All</option>
         <option value="Dairy">Dairy</option>
+        <option value="Fruits">Fruits</option>
+        <option value="Bakery">Bakery</option>
       </select>
-
-      <ProductList />
-
-      {/* TODO: Implement and render Cart component */}
+      <ProductList products={sampleProducts} addToCart={addToCart} category={category} />
+      <Cart cartItems={cartItems} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
